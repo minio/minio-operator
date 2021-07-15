@@ -26,8 +26,10 @@ import (
 )
 
 // TenantLister helps list Tenants.
+// All objects returned here must be treated as read-only.
 type TenantLister interface {
 	// List lists all Tenants in the indexer.
+	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1.Tenant, err error)
 	// Tenants returns an object that can list and get Tenants.
 	Tenants(namespace string) TenantNamespaceLister
@@ -58,10 +60,13 @@ func (s *tenantLister) Tenants(namespace string) TenantNamespaceLister {
 }
 
 // TenantNamespaceLister helps list and get Tenants.
+// All objects returned here must be treated as read-only.
 type TenantNamespaceLister interface {
 	// List lists all Tenants in the indexer for a given namespace.
+	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1.Tenant, err error)
 	// Get retrieves the Tenant from the indexer for a given namespace and name.
+	// Objects returned here must be treated as read-only.
 	Get(name string) (*v1.Tenant, error)
 	TenantNamespaceListerExpansion
 }

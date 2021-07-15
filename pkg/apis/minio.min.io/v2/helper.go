@@ -19,6 +19,7 @@ package v2
 
 import (
 	"archive/tar"
+	"bufio"
 	"bytes"
 	"compress/gzip"
 	"context"
@@ -134,6 +135,12 @@ func genEllipsis(start, end int) string {
 // for a Tenant else false
 func (t *Tenant) HasCredsSecret() bool {
 	return t.Spec.CredsSecret != nil
+}
+
+// HasConfigurationSecret returns true if the user has provided a configuration
+// for a Tenant else false
+func (t *Tenant) HasConfigurationSecret() bool {
+	return t.Spec.Configuration != nil
 }
 
 // HasCertConfig returns true if the user has provided a certificate
@@ -941,4 +948,29 @@ func (t *Tenant) GetTenantServiceURL() (svcURL string) {
 	}
 	svc := t.MinIOServerHostAddress()
 	return fmt.Sprintf("%s://%s", scheme, svc)
+}
+
+// ParseRawConfiguration map[string][]byte representation of the MinIO config.env file
+func ParseRawConfiguration(configuration []byte) (config map[string][]byte) {
+	config = map[string][]byte{}
+	if configuration != nil {
+		scanner := bufio.NewScanner(strings.NewReader(string(configuration)))
+		for scanner.Scan() {
+			line := scanner.Text()
+			// parse only exported environment variables and ignore everything else
+			if strings.HasPrefix(line, "export") {
+				envVar := strings.Split(line, "=")
+				if len(envVar) == 2 {
+					confKey := strings.TrimSpace(strings.TrimPrefix(envVar[0], "export"))
+					config[confKey] = []byte(envVar[1])
+					if confKey == "MINIO_ROOT_USER" || confKey == "MINIO_ACCESS_KEY" {
+						config["accesskey"] = []byte(envVar[1])
+					} else if confKey == "MINIO_ROOT_PASSWORD" || confKey == "MINIO_SECRET_KEY" {
+						config["secretkey"] = []byte(envVar[1])
+					}
+				}
+			}
+		}
+	}
+	return config
 }

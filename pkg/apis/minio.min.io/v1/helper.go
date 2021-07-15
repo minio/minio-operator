@@ -84,6 +84,12 @@ func (t *Tenant) HasCredsSecret() bool {
 	return t.Spec.CredsSecret != nil
 }
 
+// HasConfigurationSecret returns true if the user has provided a configuration
+// for a Tenant else false
+func (t *Tenant) HasConfigurationSecret() bool {
+	return t.Spec.Configuration != nil
+}
+
 // HasCertConfig returns true if the user has provided a certificate
 // config
 func (t *Tenant) HasCertConfig() bool {

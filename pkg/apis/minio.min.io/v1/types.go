@@ -129,6 +129,12 @@ type TenantSpec struct {
 	// ExposeServices tells operator whether to expose the MinIO service and/or the Console Service
 	// +optional
 	ExposeServices *miniov2.ExposeServices `json:"exposeServices,omitempty"`
+	// *Optional* +
+	//
+	// Specify a secret that contains additional environment variable configurations to be used for the MinIO pools.
+	// The secret is expected to have a key named config.env containing all exported environment variables for MinIO+
+	// +optional
+	Configuration *corev1.LocalObjectReference `json:"configuration,omitempty"`
 }
 
 // Zone defines the spec for a MinIO Zone
