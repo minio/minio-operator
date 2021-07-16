@@ -205,6 +205,14 @@ func Test_consoleDeploymentMatchesSpec(t *testing.T) {
 												Name:  "CONSOLE_MINIO_SERVER",
 												Value: "https://minio..svc.cluster.local:443",
 											},
+											{
+												Name:  "CONSOLE_PBKDF_PASSPHRASE",
+												Value: "b4e56747e3d36260d90eeeb08ba02f104044b690",
+											},
+											{
+												Name:  "CONSOLE_PBKDF_SALT",
+												Value: "b4e56747e3d36260d90eeeb08ba02f104044b690",
+											},
 										},
 										Ports: []corev1.ContainerPort{
 											{
@@ -332,6 +340,14 @@ func Test_consoleDeploymentMatchesSpec(t *testing.T) {
 											{
 												Name:  "CONSOLE_MINIO_SERVER",
 												Value: "https://minio..svc.cluster.local:443",
+											},
+											{
+												Name:  "CONSOLE_PBKDF_PASSPHRASE",
+												Value: "b4e56747e3d36260d90eeeb08ba02f104044b690",
+											},
+											{
+												Name:  "CONSOLE_PBKDF_SALT",
+												Value: "b4e56747e3d36260d90eeeb08ba02f104044b690",
 											},
 											{
 												Name:  "x",
@@ -627,6 +643,14 @@ func Test_consoleDeploymentMatchesSpec(t *testing.T) {
 											{
 												Name:  "CONSOLE_MINIO_SERVER",
 												Value: "https://minio..svc.cluster.local:443",
+											},
+											{
+												Name:  "CONSOLE_PBKDF_PASSPHRASE",
+												Value: "b4e56747e3d36260d90eeeb08ba02f104044b690",
+											},
+											{
+												Name:  "CONSOLE_PBKDF_SALT",
+												Value: "b4e56747e3d36260d90eeeb08ba02f104044b690",
 											},
 											{
 												Name:  "x",

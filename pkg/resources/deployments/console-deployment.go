@@ -18,6 +18,7 @@
 package deployments
 
 import (
+	"crypto/sha1"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -77,8 +78,30 @@ func consoleEnvVars(t *miniov2.Tenant) []corev1.EnvVar {
 			Value: strings.Join(caCerts, ","),
 		})
 	}
+	// if the PBKDF salt is not present, hash tenant name and use it as that
+	// CONSOLE_PBKDF_PASSPHRASE=SECRET
+	// CONSOLE_PBKDF_SALT=SECRET
+	pbkdfIsSet := false
+	for _, e := range t.Spec.Console.Env {
+		if e.Name == "CONSOLE_PBKDF_PASSPHRASE" || e.Name == "CONSOLE_PBKDF_SALT" {
+			pbkdfIsSet = true
+		}
+	}
+	if !pbkdfIsSet {
+		h := sha1.New()
+		h.Write([]byte(fmt.Sprintf("%s-%s", t.Namespace, t.Name)))
+		tmpHash := fmt.Sprintf("%x", h.Sum(nil))
+		envVars = append(envVars, corev1.EnvVar{
+			Name:  "CONSOLE_PBKDF_PASSPHRASE",
+			Value: tmpHash,
+		})
+		envVars = append(envVars, corev1.EnvVar{
+			Name:  "CONSOLE_PBKDF_SALT",
+			Value: tmpHash,
+		})
+	}
 
-	// Add all the environment variables
+	// Add all the environment variables in the Tenant.Spec.Console CRD
 	envVars = append(envVars, t.Spec.Console.Env...)
 	return envVars
 }
