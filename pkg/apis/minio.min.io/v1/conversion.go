@@ -68,6 +68,7 @@ func (src *Tenant) ConvertTo(dstRaw conversion.Hub) error {
 	dst.Spec.PodManagementPolicy = src.Spec.PodManagementPolicy
 	dst.Spec.CredsSecret = src.Spec.CredsSecret
 	dst.Spec.Env = src.Spec.Env
+	dst.Spec.Configuration = src.Spec.Configuration
 	dst.Spec.ExternalCertSecret = src.Spec.ExternalCertSecret
 	dst.Spec.ExternalCaCertSecret = src.Spec.ExternalCaCertSecret
 	dst.Spec.ExternalClientCertSecret = src.Spec.ExternalClientCertSecret

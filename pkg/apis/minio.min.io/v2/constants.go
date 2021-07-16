@@ -51,6 +51,9 @@ const CSRNameSuffix = "-csr"
 // MinIOCertPath is the path where all MinIO certs are mounted
 const MinIOCertPath = "/tmp/certs"
 
+// TmpPath /tmp path inside the container file system
+const TmpPath = "/tmp"
+
 // OperatorLabel denotes the version of the Tenant operator
 // running in the cluster.
 const OperatorLabel = "v1.min.io/version"

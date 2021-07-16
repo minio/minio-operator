@@ -67,6 +67,11 @@ spec:
                       type: string
                     type: array
                 type: object
+              configuration:
+                properties:
+                  name:
+                    type: string
+                type: object
               console:
                 properties:
                   annotations:
@@ -3525,6 +3530,11 @@ spec:
                     items:
                       type: string
                     type: array
+                type: object
+              configuration:
+                properties:
+                  name:
+                    type: string
                 type: object
               console:
                 properties:

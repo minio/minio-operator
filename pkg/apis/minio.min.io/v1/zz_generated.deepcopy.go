@@ -199,6 +199,11 @@ func (in *TenantSpec) DeepCopyInto(out *TenantSpec) {
 		*out = new(v2.ExposeServices)
 		**out = **in
 	}
+	if in.Configuration != nil {
+		in, out := &in.Configuration, &out.Configuration
+		*out = new(corev1.LocalObjectReference)
+		**out = **in
+	}
 	return
 }
 
